@@ -1,12 +1,19 @@
-FROM node:image
+FROM node:latest
 
-RUN apk update && \
-  apk add \
-    nodejs \
-    mongodb && \
-    npm install
+RUN apt-get update \
+&& apt-get install -y curl \
+
+RUN curl -LO "https://nodejs.org/dist/v0.12.5/node-v0.12.5-linux-x64.tar.gz" \
+&& tar -xzf node-v0.12.5-linux-x64.tar.gz -C /usr/local --strip-components=1 \
+&& rm node-v0.12.5-linux-x64.tar.gz
+
+WORKDIR wik-devops-3tp
+
+RUN npm install
 
 EXPOSE 8080 27017
+
+CMD node app.js
 
 
 
