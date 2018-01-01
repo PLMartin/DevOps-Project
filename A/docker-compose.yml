@@ -1,17 +1,23 @@
-version: "2"
-services:
-  app:
-    container_name: app
-    restart: always
-    build: .
-    ports:
-      - "8080:80"
-    links:
-      - mongo
-  mongo:
-    container_name: mongo
-    image: mongo
-    volumes:
-      - ./data:/data/db
+version: '2' 
+services: 
+  db-mongo:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
       - "27017:27017"
+  homecolis-api: 
+    image: homecolis-api:latest 
+    ports: 
+      - "8089:8080"
+    links:
+      - db-mongo
+    environment: 
+      - PORT=8080
+      - NODE_ENV=development
+      - MONGO_HOST=db-mongo
+      - MONGO_PORT=27017
+      - MONGO_DATABASE=admin
+      - MONGO_USER=root
+      - MONGO_PASSWORD=123456

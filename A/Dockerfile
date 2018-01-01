@@ -1,11 +1,13 @@
-FROM node:latest
-RUN mkdir -p /usr/src/app
+FROM node:8
+
 WORKDIR /usr/src/app
-COPY package.json /usr/src/app/
+
+COPY wik-devops-3tp/package*.json ./
+
+COPY wik-devops-3tp/app.js ./
+
 RUN npm install
-COPY . /usr/src/app
-EXPOSE 8080 27017
-CMD [ “npm”, “start” ]
 
+EXPOSE 8080
 
-
+CMD ["npm", "start"]
