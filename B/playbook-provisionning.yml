@@ -1,0 +1,38 @@
+- name: Init mongo slave
+  hosts: mongo_slave
+  remote_user: ubuntu
+  ignore_errors: yes
+  sudo: yes
+  roles:
+   - greendayonfire.mongodb
+  vars:
+   mongodb_net_bindip: 0.0.0.0
+   mongodb_login_host: 52.24.214.102
+   mongodb_security_authorization: "enabled"
+   mongodb_users:
+      - {
+        name: user,
+        password: password,
+        roles: readWrite,
+        database: test
+        }
+
+
+- name: Init mongo master
+  hosts: mongo_master
+  remote_user: ubuntu
+  ignore_errors: yes
+  sudo: yes
+  roles:
+   - greendayonfire.mongodb
+  vars:
+    mongodb_security_authorization: "enabled"
+    mongodb_net_bindip: 0.0.0.0
+    mongodb_login_host: 35.162.224.67
+    mongodb_users:
+     - {
+       name: user,
+       password: password,
+       roles: dbAdminAnyDatabase,
+       database: admin
+       }
